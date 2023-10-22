@@ -1,33 +1,29 @@
 using UnityEngine;
 
-public class SphereResponse : MonoBehaviour
+public class CylinderCollision : MonoBehaviour
 {
-    public enum SphereType { Type1, Type2 }
-    public SphereType sphereType;
-    public Color type1Color = Color.red;
-    public Transform cylinderTransform;
-
-    private void Start()
+    private void OnCollisionEnter(Collision collision)
     {
-        CylinderCollision.CubeCollidedWithCylinder += RespondToCollision;
-    }
-
-    private void OnDestroy()
-    {
-        CylinderCollision.CubeCollidedWithCylinder -= RespondToCollision;
-    }
-
-    void RespondToCollision()
-    {
-        if (sphereType == SphereType.Type1)
+        if (collision.gameObject.CompareTag("Cubo"))
         {
-            // Cambiar el color de la esfera
-            GetComponent<Renderer>().material.color = type1Color;
+            SendMessageToSpheres();
         }
-        else if (sphereType == SphereType.Type2)
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Cubo"))
         {
-            // Desplazar hacia el cilindro
-            transform.position = Vector3.MoveTowards(transform.position, cylinderTransform.position, 1f);
+            SendMessageToSpheres();
+        }
+    }
+
+    void SendMessageToSpheres()
+    {
+        SphereBehaviour1[] spheres = FindObjectsOfType<SphereBehaviour1>();
+        foreach (SphereBehaviour1 sphere in spheres)
+        {
+            sphere.ReactToCollision();
         }
     }
 }

@@ -1,39 +1,52 @@
 using UnityEngine;
 
-public class CubeApproach : MonoBehaviour
+public class CubeProximityBehavior : MonoBehaviour
 {
     public Transform cylinderTransform;
-    public float proximityThreshold = 3.0f; // Distancia a la que se desencadenan los comportamientos
-    public Color newColor = Color.blue; // Nuevo color para las esferas del grupo 1
-    public float jumpForce = 5.0f; // Fuerza de salto para las esferas del grupo 1
-    public Transform referenceObject; // Objeto de referencia hacia el cual se orientarán las esferas del grupo 2
+    public float proximityThreshold = 3.0f; // Distancia a la que se activan los efectos
+    public Transform objectToLookAt; // Objeto hacia el que las esferas Tipo2 se orientarán
+    public Color colorForType1 = Color.red; // Color al que cambiarán las esferas Tipo1
+    public float jumpForce = 5.0f; // Fuerza del salto para esferas Tipo1
 
-    private bool actionsTriggered = false;
+    private bool effectsActivated = false;
 
-    private void Update()
+    void Update()
     {
-        float distance = Vector3.Distance(transform.position, cylinderTransform.position);
-        
-        if (distance <= proximityThreshold && !actionsTriggered)
+        float distanceToCylinder = Vector3.Distance(transform.position, cylinderTransform.position);
+
+        if (distanceToCylinder <= proximityThreshold && !effectsActivated)
         {
-            actionsTriggered = true; // Para que las acciones solo se desencadenen una vez
+            ActivateEffects();
+            effectsActivated = true;
+        }
+        else if (distanceToCylinder > proximityThreshold && effectsActivated)
+        {
+            effectsActivated = false;
+        }
+    }
 
-            // Cambia el color y haz saltar las esferas del grupo 1
-            foreach (GameObject sphere in GameObject.FindGameObjectsWithTag("SphereType1"))
+    void ActivateEffects()
+    {
+        // Cambiar el color y hacer saltar las esferas Tipo1
+        foreach (var sphere in GameObject.FindGameObjectsWithTag("Tipo1"))
+        {
+            var renderer = sphere.GetComponent<Renderer>();
+            if (renderer)
             {
-                sphere.GetComponent<Renderer>().material.color = newColor;
-                Rigidbody rb = sphere.GetComponent<Rigidbody>();
-                if (rb)
-                {
-                    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                }
+                renderer.material.color = colorForType1;
             }
 
-            // Orienta las esferas del grupo 2 hacia el objeto de referencia
-            foreach (GameObject sphere in GameObject.FindGameObjectsWithTag("SphereType2"))
+            var rb = sphere.GetComponent<Rigidbody>();
+            if (rb)
             {
-                sphere.transform.LookAt(referenceObject);
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
+        }
+
+        // Orientar las esferas Tipo2 hacia el objeto especificado
+        foreach (var sphere in GameObject.FindGameObjectsWithTag("Tipo2"))
+        {
+            sphere.transform.LookAt(objectToLookAt);
         }
     }
 }

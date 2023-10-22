@@ -1,22 +1,26 @@
 using UnityEngine;
 
-public class CubeScore : MonoBehaviour
+public class CubeCollector1 : MonoBehaviour
 {
     private int score = 0;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("SphereType1"))
+        // Comprobando colisiones con esferas de Tipo1
+        if (other.CompareTag("Tipo1"))
         {
-            score += 5; // Suma 5 puntos por esfera del tipo 1
-            Destroy(other.gameObject); // Elimina la esfera recogida de la escena
-        }
-        else if (other.CompareTag("SphereType2"))
-        {
-            score += 10; // Suma 10 puntos por esfera del tipo 2
-            Destroy(other.gameObject); // Elimina la esfera recogida de la escena
+            score += 5;
+            Destroy(other.gameObject); // Destruye la esfera después de recogerla
         }
 
-        Debug.Log($"Score: {score}"); // Muestra la puntuación actual en la consola
+        // Comprobando colisiones con esferas de Tipo2
+        if (other.CompareTag("Tipo2"))
+        {
+            score += 10;
+            Destroy(other.gameObject); // Destruye la esfera después de recogerla
+        }
+
+        // Mostrar la puntuación en la consola
+        Debug.Log("Puntuación: " + score);
     }
 }
