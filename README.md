@@ -47,26 +47,16 @@ A lo largo de esta práctica, se desarrollaron diversas mecánicas de juego util
 ![05 1](https://github.com/alu0101246949/practica4-II/assets/114754476/86a4247f-5937-4113-b788-a0bc9197d656)
 
 ### 6. Creación de la Escena de Prototipo:
+![06](https://github.com/alu0101246949/practica4-II/assets/114754476/8e421bee-4285-4501-83d1-13515cd0b3b1)
 
-- **Terreno**: Creado para actuar como suelo y escenario de juego.
-  
-- **Iluminación**: Añadida luz direccional, similar a la luz del sol.
+## Creación de Laberinto en Unity
 
-- **Cámara**: Configurada para seguir al cubo y mostrar la acción.
+1. **Laberinto**:
+   - Creé un plano para el suelo.
+   - Usé cubos escalados para formar paredes.
+   
+2. **Esferas**:
+   - Escondí esferas en el laberinto con tags "Tipo1" y "Tipo2".
 
-- **Cubo (Jugador)**: 
-  - Representa al jugador o personaje principal.
-  - Equipado con scripts para interacciones y movimiento.
-
-- **Cilindro**: Objeto interactivo que influye en el comportamiento de las esferas.
-
-- **Esferas**: 
-  - Esparcidas por el terreno en dos variantes.
-  - Reaccionan al cubo basándose en interacciones definidas previamente.
-
-- **Mecánicas**:
-  - Implementadas para gestionar colisiones y proximidad.
-  - Las esferas cambian según las acciones del cubo.
-
-- **UI**: 
-  - Interfaz sencilla mostrando puntuación del jugador en tiempo real.
+3. **Scripts**:
+   - Reutilicé el script `CubeCollector` para añadir mecánicas de colección.
